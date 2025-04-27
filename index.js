@@ -4,6 +4,29 @@ const rl = readline.createInterface({
     output: process.stdout,
 });
 
+function addItem(cart, item) {
+    cart.push(item);
+    console.log(`Товар добавлен: ${item}`);
+}
+
+function removeItem(cart, item) {
+    const index = cart.indexOf(item);
+    if (index !== -1) {
+        cart.splice(index, 1);
+        console.log(`Товар удален: ${item}`);
+    } else {
+        console.log(`Товар '${item}' не найден в корзине.`);
+    }
+}
+
+
+function showCart(cart) {
+    console.log("\nИтоговый список покупок:");
+    for (const item of cart) {
+        console.log(`- ${item}`);
+    }
+}
+
 rl.question("Введите количество желаемых покупок: ", (itemNumber) => {
     const cart = [];
     const itemCount = Number(itemNumber);
@@ -24,23 +47,18 @@ rl.question("Введите количество желаемых покупок
                     askForItem(); 
                     return;
                 }
-                cart.push(itemName);
+                addItem(cart, itemName);
                 i++;
                 askForItem(); 
             });
         } else {
-            console.log(`Количество товаров: ${cart.length}`);
+            console.log(`Количество товаров: ${cart.length} `);
 
-            const index = cart.indexOf("пример_1"); // Удаление определенного товара из корзины
-            if (index !== -1) {
-                cart.splice(index, 1);
-            }
+        removeItem(cart, "пример_1");
 
-            cart.push("пример_2"); // Добавление товара в конец корзины
+        addItem(cart, "пример_2");
 
-            for (const item of cart) {
-                console.log(`В корзине: ${item}`);
-            }
+        showCart(cart);
 
             rl.close();
         }
